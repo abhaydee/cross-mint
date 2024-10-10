@@ -9,10 +9,10 @@ export class RequestQueue {
   private delay: number;
 
   constructor(initialDelay: number = 250) {
-    this.delay = initialDelay; // Set the initial delay time between requests
+    this.delay = initialDelay; // Setting the initial delay time between requests
   }
 
-  // Adds a task to the queue and starts processing if not already active
+  // Adding a task to the queue and starts processing if not already active
   public addTask(task: TaskFunction): void {
     this.queue.push(task);
     if (!this.isProcessing) {
@@ -38,18 +38,18 @@ export class RequestQueue {
     this.isProcessing = false;
   }
 
-  // Sets a dynamic delay based on API response headers
+  // Setting a dynamic delay based on API response headers
   public updateDelay(newDelay: number): void {
     this.delay = newDelay;
     Logger.warn(`Dynamic delay set to ${this.delay}ms based on API response.`);
   }
 
-  // Resets the delay to the default value
+  // Resetting the delay to the default value
   public resetDelay(): void {
     this.delay = 250; // Reset to initial delay
   }
 
-  // Adds a delay between tasks to control the request rate
+  // Adding delay between tasks to control the request rate
   private async delayExecution(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }

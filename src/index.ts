@@ -2,8 +2,8 @@
 import { MegaverseBuilder } from './megaverseBuilder';
 
 const main = async () => {
+  // Start the process for building the Megaverse based on the goal map.
   const megaverseBuilder = new MegaverseBuilder();
-
   try {
     console.log('🚀 Starting Megaverse Creation based on Goal Map...');
     await megaverseBuilder.buildMegaverse();

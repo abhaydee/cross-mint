@@ -1,4 +1,3 @@
-// src/utils/RequestQueue.ts
 import { Logger } from './logger';
 
 type TaskFunction = () => Promise<void>;
@@ -8,7 +7,7 @@ export class RequestQueue {
   private isProcessing: boolean = false;
   private delay: number;
 
-  constructor(initialDelay: number = 250) {
+  constructor(initialDelay: number = 150) {
     this.delay = initialDelay; // Setting the initial delay time between requests
   }
 

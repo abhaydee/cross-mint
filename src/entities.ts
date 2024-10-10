@@ -1,45 +1,38 @@
 import { MegaverseAPIClient } from './apiClient';
 
-const megaverseApiClient = new MegaverseAPIClient();
-
 // Base class representing a generic Megaverse entity
-class Entity {
-  constructor(public row: number, public column: number) {}
+export abstract class Entity {
+  constructor(protected row: number, protected column: number, protected apiClient: MegaverseAPIClient) {}
 
-  // Common logging functionality for all entities
-  logCreation(): void {
-    console.log(`Creating entity at row: ${this.row}, column: ${this.column}`);
-  }
+  // Abstract method to be implemented by subclasses
+  abstract create(): void;
 }
 
-// Polyanet entity class extending Entity base class
+// Polyanet entity class
 export class Polyanet extends Entity {
-  async create(): Promise<void> {
-    this.logCreation();
-    await megaverseApiClient.createPolyanet(this.row, this.column);
+  create(): void {
+    this.apiClient.createPolyanet(this.row, this.column);
   }
 }
 
-// Soloon entity class extending Entity base class
+// Soloon entity class with a color attribute
 export class Soloon extends Entity {
-  constructor(row: number, column: number, private color: string) {
-    super(row, column);
+  constructor(row: number, column: number, private color: string, apiClient: MegaverseAPIClient) {
+    super(row, column, apiClient);
   }
 
-  async create(): Promise<void> {
-    this.logCreation();
-    await megaverseApiClient.createSoloon(this.row, this.column, this.color);
+  create(): void {
+    this.apiClient.createSoloon(this.row, this.column, this.color);
   }
 }
 
-// Cometh entity class extending Entity base class
+// Cometh entity class with a direction attribute
 export class Cometh extends Entity {
-  constructor(row: number, column: number, private direction: string) {
-    super(row, column);
+  constructor(row: number, column: number, private direction: string, apiClient: MegaverseAPIClient) {
+    super(row, column, apiClient);
   }
 
-  async create(): Promise<void> {
-    this.logCreation();
-    await megaverseApiClient.createCometh(this.row, this.column, this.direction);
+  create(): void {
+    this.apiClient.createCometh(this.row, this.column, this.direction);
   }
 }

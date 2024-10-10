@@ -1,5 +1,5 @@
 
-# 🪐 Megaverse Entity Creation Project
+# 🪐 CrossMint MegaVerse Assignment
 
 Hey there! Welcome to the **Megaverse Entity Creation Project** 🚀! This project is all about automating the creation of a cool pattern of celestial entities (Polyanet, Soloon, and Cometh) based on a given "goal map". The goal is to build it without manually calling APIs over and over. 😎
 

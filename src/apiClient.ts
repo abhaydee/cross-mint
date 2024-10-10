@@ -15,29 +15,14 @@ if (!BASE_URL || !CANDIDATE_ID) {
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // Request Queue for Rate Limiting
 const requestQueue = new RequestQueue();
 
-// Helper function to parse retry headers and update the delay dynamically
-const handleRateLimit = (error: any): void => {
-  const retryAfter = error.response?.headers['retry-after'];
-  if (retryAfter) {
-    // Convert Retry-After header to milliseconds (if in seconds)
-    const retryDelay = parseInt(retryAfter, 10) * 1000;
-    requestQueue.updateDelay(retryDelay);
-  } else {
-    // Default increase if no Retry-After header is available
-    requestQueue.updateDelay(requestQueue['delay'] * 2);
-  }
-};
-
 // Centralized function to handle entity creation with dynamic rate limit handling
-const createEntity = async (url: string, data: any): Promise<void> => {
+const createEntity = async (url: string, data: Record<string, any>): Promise<void> => {
   const task = async () => {
     try {
       await apiClient.post(url, data);
@@ -46,7 +31,7 @@ const createEntity = async (url: string, data: any): Promise<void> => {
     } catch (error: any) {
       if (error.response?.status === 429) {
         Logger.warn('Rate limit detected. Adjusting delay...');
-        handleRateLimit(error); // Update delay based on response headers
+        requestQueue.updateDelay(requestQueue.getDelay() * 2); // Exponential backoff
         throw error;
       }
       Logger.error(`❌ Error creating entity: ${error.message}`);
@@ -62,22 +47,19 @@ export const getGoalMap = async (): Promise<string[][]> => {
     Logger.info('Successfully fetched the goal map.');
     return response.data.goal;
   } catch (error) {
-    // Logger.error('❌ Error fetching the goal map:', error);
     throw error;
   }
 };
 
-// Create a Polyanet at a specific position
+// Entity creation functions
 export const createPolyanet = (row: number, column: number): void => {
   createEntity('/polyanets', { row, column, candidateId: CANDIDATE_ID });
 };
 
-// Create a Soloon with a specific color (e.g., "red", "blue", "white", etc.)
 export const createSoloon = (row: number, column: number, color: string): void => {
   createEntity('/soloons', { row, column, color, candidateId: CANDIDATE_ID });
 };
 
-// Create a Cometh with a specific direction (e.g., "up", "down", "left", "right")
 export const createCometh = (row: number, column: number, direction: string): void => {
   createEntity('/comeths', { row, column, direction, candidateId: CANDIDATE_ID });
 };

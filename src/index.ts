@@ -2,8 +2,6 @@
 import { MegaverseBuilder } from './megaverseBuilder';
 
 const main = async () => {
-  // const gridSize = 11; // Default grid size for Phase 2
-
   const megaverseBuilder = new MegaverseBuilder();
 
   try {

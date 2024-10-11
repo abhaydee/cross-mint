@@ -88,14 +88,6 @@ When the app runs successfully, you’ll see something like this in your console
 [2024-10-10T02:50:30.561Z] [INFO] ☄️ Cometh created at row 14, column 11 moving: up
 ```
 
-### Testing
-
-To run the test suite and check your implementation:
-
-```bash
-npm test
-```
-
 This will run unit tests for the core components like `MegaverseBuilder`, `RequestQueue`, and `APIClient`.
 
 ## 💡 Design Thoughts
